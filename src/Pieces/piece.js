@@ -1,10 +1,10 @@
 class Piece{
-    constructor(color, x, y){
+    constructor(color, row, col){
        this.color = color;
-       this.x = x;
-       this.y = y; 
-       this.matrixX = x - 1;
-       this.matrixY = 8 - y;    
+       this.row = row;
+       this.col = col;
+       this.x = col + 1;
+       this.y = 8 - row; 
     }
 }
 

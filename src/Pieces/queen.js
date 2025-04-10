@@ -1,6 +1,6 @@
 import { Piece } from "./piece.js";
 
-class Pawn extends Piece{
+class Queen extends Piece{
     constructor(color, row, col){
         super(color,row,col);
         
@@ -9,4 +9,4 @@ class Pawn extends Piece{
 
 }
 
-export {Pawn}
+export {Queen}
