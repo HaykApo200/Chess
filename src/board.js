@@ -1,11 +1,16 @@
+import { Pawn } from "./Pieces/pawn.js";
+
 class Board{
     constructor(domElements,size){
         this.size = size;
         this.domElements = domElements;
         this.canvas = this.createCnavas();
         this.ctx = this.canvas.getContext('2d');
-        this.defaultFoo = this.defaultFoo();
 
+        this.matrix = this.createMatrixAndFillObj();
+
+
+        this.defaultFoo = this.defaultFoo();
         this.canvas.addEventListener('click', this.getCoordinates.bind(this));
     }
 
@@ -37,6 +42,10 @@ class Board{
                 this.ctx.fillRect(col * squareSize, row * squareSize, squareSize, squareSize); 
             }
         }
+    }
+
+    createMatrixAndFillObj(){
+
     }
 
     getCoordinates(event) {
