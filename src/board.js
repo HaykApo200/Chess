@@ -14,7 +14,7 @@ class Board{
         this.ctx = this.canvas.getContext('2d');
 
         this.matrix = this.createMatrixAndFillObj();
-        console.log(this.matrix);
+        //console.log(this.matrix);
 
         this.visualBoard = new VisualBoard(this.canvas,this.ctx,this.matrix, this.size);
 
@@ -93,3 +93,4 @@ class Board{
 }
 
 export {Board};
+
