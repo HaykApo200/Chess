@@ -14,10 +14,9 @@ class Board{
         this.ctx = this.canvas.getContext('2d');
 
         this.matrix = this.createMatrixAndFillObj();
-        //console.log(this.matrix);
-
         this.visualBoard = new VisualBoard(this.canvas,this.ctx,this.matrix, this.size);
-
+        
+        this.moveW = true;
         
         
         this.canvas.addEventListener('click', this.getCoordinates.bind(this));
