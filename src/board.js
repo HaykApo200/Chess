@@ -18,7 +18,6 @@ class Board{
         
         this.moveW = true;
         
-        
         this.canvas.addEventListener('click', this.getCoordinates.bind(this));
     }
 
@@ -77,6 +76,7 @@ class Board{
         return matrix;
     }
 
+
     getCoordinates(event) {
         const rect = this.canvas.getBoundingClientRect(); 
         const x = event.clientX - rect.left;  
@@ -85,7 +85,9 @@ class Board{
         const squareSize = this.size / 8;
         const col = Math.floor(x / squareSize); // Math.floor(x / squareSize) + 1;
         const row = Math.floor(y / squareSize);  //9 - (Math.floor(y / squareSize) + 1);
-
+        let dummy = this.matrix[row][col].getValidSteps(this.matrix);
+        console.log(dummy);
+        
         console.log(`Position: Row = ${row}, Column = ${col}`);
     }
 

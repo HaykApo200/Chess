@@ -1,10 +1,3 @@
-import { Pawn } from "./Pieces/pawn.js";
-import { Rook } from "./Pieces/rook.js";
-import { Queen } from "./Pieces/queen.js";
-import { King } from "./Pieces/king.js";
-import { Knight } from "./Pieces/knight.js";
-import { Bishop } from "./Pieces/bishop.js";
-
 class VisualBoard{
     constructor(canvas,ctx,matrix,size){
         this.canvas = canvas;

@@ -6,6 +6,8 @@ class Piece{
        this.x = col + 1;
        this.y = 8 - row; 
     }
+
+    
 }
 
 export {Piece}
