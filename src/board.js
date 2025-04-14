@@ -16,8 +16,13 @@ class Board{
         this.matrix = this.createMatrixAndFillObj();
         this.visualBoard = new VisualBoard(this.canvas,this.ctx,this.matrix, this.size);
         
+        //this.matrix[4][3] = new Pawn("W", 4,3)
+        this.matrix[5][2] = new Pawn("B", 5,2)
         this.moveW = true;
-        
+        this.currPossibleSteps = [];
+        this.currPiece = [];
+      //  this.currPieceCord = [];
+
         this.canvas.addEventListener('click', this.getCoordinates.bind(this));
     }
 
@@ -83,14 +88,38 @@ class Board{
         const y = event.clientY - rect.top;   
 
         const squareSize = this.size / 8;
-        const col = Math.floor(x / squareSize); // Math.floor(x / squareSize) + 1;
-        const row = Math.floor(y / squareSize);  //9 - (Math.floor(y / squareSize) + 1);
-        let dummy = this.matrix[row][col].getValidSteps(this.matrix);
-        console.log(dummy);
-        
-        console.log(`Position: Row = ${row}, Column = ${col}`);
-    }
+        const col = Math.floor(x / squareSize);
+        const row = Math.floor(y / squareSize);
 
+        const selectedCell = this.matrix[row][col];
+        const sameCellClicked = this.currPiece && this.currPiece[0] === row && this.currPiece[1] === col;
+
+        if (sameCellClicked) {
+            if (this.currPossibleSteps.length > 0) {
+                this.visualBoard.removePossibleSteps(this.currPossibleSteps);
+                this.currPossibleSteps = [];
+            } else {
+                this.currPossibleSteps = selectedCell.getValidSteps(this.matrix);
+                this.visualBoard.paintPossibleSteps(this.currPossibleSteps);
+            }
+        } else {
+            if (this.currPossibleSteps.length > 0 ) {  //&& typeof selectedCell === "object"// when click '-' ceill do not delete possible steps
+                this.visualBoard.removePossibleSteps(this.currPossibleSteps);
+                this.currPossibleSteps = [];
+            }
+
+            if (typeof selectedCell === "object") {
+                this.currPossibleSteps = selectedCell.getValidSteps(this.matrix);
+                this.visualBoard.paintPossibleSteps(this.currPossibleSteps);
+                this.currPiece = [row, col];
+            } else {
+                this.currPiece = null;
+            }
+        }
+
+        console.log(`Position: Row = ${row}, Column = ${col}`);
+
+    }
 }
 
 export {Board};

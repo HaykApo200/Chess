@@ -3,8 +3,8 @@ class Piece{
        this.color = color;
        this.row = row;
        this.col = col;
-       this.x = col + 1;
-       this.y = 8 - row; 
+       this.x = this.col + 1;
+       this.y = 8 - this.row; 
     }
 
     
