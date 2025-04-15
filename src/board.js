@@ -8,7 +8,7 @@ import { Bishop } from "./Pieces/bishop.js";
 
 class Board{
     constructor(domElements,size){
-        this.size = size;
+        this.size = size; // canvas size => ceil size = size / 8
         this.domElements = domElements;
         this.canvas = this.createCnavas();
         this.ctx = this.canvas.getContext('2d');
@@ -16,13 +16,13 @@ class Board{
         this.matrix = this.createMatrixAndFillObj();
         this.visualBoard = new VisualBoard(this.canvas,this.ctx,this.matrix, this.size);
         
-        this.moveW = true;
-        this.stepCout = 0;
-        this.currPossibleSteps = [];
-        this.currPiece = null;
+        this.moveW = true; // Whose turn
+        this.stepCout = 0; // How many steps were there
+        this.currPossibleSteps = []; // When you click on a piece, the possible moves of that piece are stored here.
+        this.currPiece = null; // Current piece
         this.moveSound = new Audio("sound/stepSound.mp3");
 
-        this.canvas.addEventListener('click', this.getCoordinates.bind(this));
+        this.canvas.addEventListener('click', this.gameController.bind(this));
 
     }
 
@@ -82,8 +82,8 @@ class Board{
     }
 
 
-    getCoordinates(event) {
-        console.log(this.matrix);
+    gameController(event) {
+        //console.log(this.matrix);
         
         const rect = this.canvas.getBoundingClientRect(); 
         const x = event.clientX - rect.left;  
@@ -112,10 +112,12 @@ class Board{
                         this.moveW = !this.moveW;
                         moveItem = true;
                         this.moveSound.play();
+                        this.stepCout++;
                     }
                 });
             }
     
+            //When you don't make a move, you instead change the selected piece or close its possible moves.
             if (!moveItem) {
                 if (sameCellClicked) {
                     if (this.currPossibleSteps.length > 0) {
