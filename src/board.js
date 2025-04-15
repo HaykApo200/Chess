@@ -19,8 +19,9 @@ class Board{
         //this.matrix[4][3] = new Pawn("W", 4,3)
         this.matrix[5][2] = new Pawn("B", 5,2)
         this.moveW = true;
+        this.stepCout = 0;
         this.currPossibleSteps = [];
-        this.currPiece = [];
+        this.currPiece = null;
       //  this.currPieceCord = [];
 
         this.canvas.addEventListener('click', this.getCoordinates.bind(this));
@@ -83,43 +84,67 @@ class Board{
 
 
     getCoordinates(event) {
+        console.log(this.matrix);
+        
         const rect = this.canvas.getBoundingClientRect(); 
         const x = event.clientX - rect.left;  
         const y = event.clientY - rect.top;   
-
+    
         const squareSize = this.size / 8;
         const col = Math.floor(x / squareSize);
         const row = Math.floor(y / squareSize);
-
+    
         const selectedCell = this.matrix[row][col];
         const sameCellClicked = this.currPiece && this.currPiece[0] === row && this.currPiece[1] === col;
-
-        if (sameCellClicked) {
-            if (this.currPossibleSteps.length > 0) {
-                this.visualBoard.removePossibleSteps(this.currPossibleSteps);
-                this.currPossibleSteps = [];
-            } else {
-                this.currPossibleSteps = selectedCell.getValidSteps(this.matrix);
-                this.visualBoard.paintPossibleSteps(this.currPossibleSteps);
+    
+        const currMoveCol = this.moveW ? "W" : "B";
+    
+        if (this.currPiece == null || this.matrix[this.currPiece[0]][this.currPiece[1]].color == currMoveCol) {
+            let moveItem = false;
+    
+            if (this.currPossibleSteps.length !== 0) {
+                this.currPossibleSteps.forEach((cord) => {
+                    if (cord[0] == row && cord[1] == col) {
+                        this.visualBoard.movePiece(this.matrix[this.currPiece[0]][this.currPiece[1]], row, col);
+                        this.visualBoard.removePossibleSteps(this.currPossibleSteps);
+                        this.currPossibleSteps = [];
+                        this.currPiece = null;
+                        this.moveW = !this.moveW;
+                        moveItem = true;
+                    }
+                });
             }
-        } else {
-            if (this.currPossibleSteps.length > 0 ) {  //&& typeof selectedCell === "object"// when click '-' ceill do not delete possible steps
-                this.visualBoard.removePossibleSteps(this.currPossibleSteps);
-                this.currPossibleSteps = [];
-            }
-
-            if (typeof selectedCell === "object") {
-                this.currPossibleSteps = selectedCell.getValidSteps(this.matrix);
-                this.visualBoard.paintPossibleSteps(this.currPossibleSteps);
-                this.currPiece = [row, col];
-            } else {
-                this.currPiece = null;
+    
+            if (!moveItem) {
+                if (sameCellClicked) {
+                    if (this.currPossibleSteps.length > 0) {
+                        this.visualBoard.removePossibleSteps(this.currPossibleSteps);
+                        this.currPossibleSteps = [];
+                    } else {
+                        if (typeof selectedCell === "object" && selectedCell.color === currMoveCol) {
+                            this.currPossibleSteps = selectedCell.getValidSteps(this.matrix);
+                            this.visualBoard.paintPossibleSteps(this.currPossibleSteps);
+                        }
+                    }
+                } else {
+                    if (this.currPossibleSteps.length > 0) {
+                        this.visualBoard.removePossibleSteps(this.currPossibleSteps);
+                        this.currPossibleSteps = [];
+                    }
+    
+                    if (typeof selectedCell === "object" && selectedCell.color === currMoveCol) {
+                        this.currPossibleSteps = selectedCell.getValidSteps(this.matrix);
+                        this.visualBoard.paintPossibleSteps(this.currPossibleSteps);
+                        this.currPiece = [row, col];
+                    } else {
+                        this.currPiece = null;
+                    }
+                }
             }
         }
-
-        console.log(`Position: Row = ${row}, Column = ${col}`);
-
     }
+
+
 }
 
 export {Board};

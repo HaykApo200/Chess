@@ -45,7 +45,7 @@ class VisualBoard{
     paintPossibleSteps(cordMatrix){
         const squareSize = this.size / 8;
         cordMatrix.forEach((cord) => {
-            console.log(this.matrix);
+          //  console.log(this.matrix);
             
         const row = cord[0];
         const col = cord[1];
@@ -104,6 +104,31 @@ class VisualBoard{
         });
     }
 
+    movePiece(piece, newRow, newCol){
+        const matrix = this.matrix;
+        const ctx = this.ctx;
+        const squareSize = this.size / 8;
+    
+        const oldRow = piece.row;
+        const oldCol = piece.col;
+    
+        piece.row = newRow;
+        piece.col = newCol;
+
+        matrix[newRow][newCol] = piece;
+        matrix[oldRow][oldCol] = "-";
+
+        ctx.fillStyle = (oldRow + oldCol) % 2 === 0 ? '#b58863' : '#f0d9b5';
+        ctx.fillRect(oldCol * squareSize, oldRow * squareSize, squareSize, squareSize);
+
+        const pieceImageSrc = piece.src;
+        const image = new Image();
+        image.src = pieceImageSrc;
+        image.onload = function () {
+            ctx.drawImage(image, newCol * squareSize, newRow * squareSize, squareSize, squareSize);
+        };
+
+    }
 
 }
 
