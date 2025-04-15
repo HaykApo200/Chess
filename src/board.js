@@ -16,13 +16,10 @@ class Board{
         this.matrix = this.createMatrixAndFillObj();
         this.visualBoard = new VisualBoard(this.canvas,this.ctx,this.matrix, this.size);
         
-        //this.matrix[4][3] = new Pawn("W", 4,3)
-        this.matrix[5][2] = new Pawn("B", 5,2)
         this.moveW = true;
         this.stepCout = 0;
         this.currPossibleSteps = [];
         this.currPiece = null;
-      //  this.currPieceCord = [];
         this.moveSound = new Audio("sound/stepSound.mp3");
 
         this.canvas.addEventListener('click', this.getCoordinates.bind(this));

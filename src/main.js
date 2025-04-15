@@ -4,8 +4,6 @@ import { Board_Size_With_Pixels as size,
 
 import { Board } from "./board.js";
 
-import { Pawn } from "./Pieces/pawn.js";
-
 //Get important DOM elements and manage num and letters flexibilty
 const lettersContent = document.getElementById('letters-content');
 const numsContent = document.getElementById('nums-content');
@@ -27,9 +25,4 @@ const domElements = [parent,lettersContent,numsContent];
 const board = new Board(domElements,size);
 
 
-
-// let pawn = new Pawn("w", 5,6);
-// 
-
-// console.log(pawn);
 
