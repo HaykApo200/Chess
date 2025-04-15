@@ -23,8 +23,10 @@ class Board{
         this.currPossibleSteps = [];
         this.currPiece = null;
       //  this.currPieceCord = [];
+        this.moveSound = new Audio("sound/stepSound.mp3");
 
         this.canvas.addEventListener('click', this.getCoordinates.bind(this));
+
     }
 
     createCnavas(){
@@ -102,6 +104,7 @@ class Board{
         if (this.currPiece == null || this.matrix[this.currPiece[0]][this.currPiece[1]].color == currMoveCol) {
             let moveItem = false;
     
+            //When you move piece
             if (this.currPossibleSteps.length !== 0) {
                 this.currPossibleSteps.forEach((cord) => {
                     if (cord[0] == row && cord[1] == col) {
@@ -111,6 +114,7 @@ class Board{
                         this.currPiece = null;
                         this.moveW = !this.moveW;
                         moveItem = true;
+                        this.moveSound.play();
                     }
                 });
             }
