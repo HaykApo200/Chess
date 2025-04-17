@@ -81,10 +81,42 @@ class Board{
         return matrix;
     }
 
+    kingIsInCheck(moveW){
+        const matrix = this.matrix;
+        const color = moveW ? "B" : "W";
+
+        //Check where is King
+        let kingPos = null;
+        for(let r = 0; r < matrix.length;r++){
+            for(let c = 0;c < matrix.length;c++){ 
+                if((typeof matrix[r][c] == "object") && (matrix[r][c].name == "K") && (matrix[r][c].color == color)){
+                    kingPos = [r,c];
+                    break;
+                }
+            }
+            if (kingPos) break;
+        }
+        
+        for (let r = 0; r < matrix.length; r++) {
+            for (let c = 0; c < matrix.length; c++) {
+                if (typeof matrix[r][c] === "object") {
+                    const validSteps = matrix[r][c].getValidSteps(this.matrix);
+                    for (let i = 0; i < validSteps.length; i++) {
+                        if ((validSteps[i][0] === kingPos[0]) && (validSteps[i][1] === kingPos[1])) {
+                            console.log(true);
+                            return true;  
+                        }
+                    }
+                }
+            }
+        }
+    
+        console.log(false);
+        return false;  
+    }
+
 
     gameController(event) {
-        //console.log(this.matrix);
-        
         const rect = this.canvas.getBoundingClientRect(); 
         const x = event.clientX - rect.left;  
         const y = event.clientY - rect.top;   
@@ -109,6 +141,7 @@ class Board{
                         this.visualBoard.removePossibleSteps(this.currPossibleSteps);
                         this.currPossibleSteps = [];
                         this.currPiece = null;
+                        this.kingIsInCheck(this.moveW);
                         this.moveW = !this.moveW;
                         moveItem = true;
                         this.moveSound.play();
