@@ -42,6 +42,26 @@ class King extends Piece{
         return validSteps;
     }
     
+    kingIsInCheck(matrix){
+        const color = (this.color == "W") ? "B" : "W";
+        
+        for (let r = 0; r < matrix.length; r++) {
+            for (let c = 0; c < matrix.length; c++) {
+                if (typeof matrix[r][c] === "object" && matrix[r][c].color == color){
+                    const validSteps = matrix[r][c].getValidSteps(matrix);
+                    for (let i = 0; i < validSteps.length; i++) {
+                        if ((validSteps[i][0] === this.row) && (validSteps[i][1] === this.col)) {
+                            console.log(true);
+                            return true;  
+                        }
+                    }
+                }
+            }
+        }
+    
+        console.log(false);
+        return false;  
+    }
 
 }
 
